@@ -9,19 +9,24 @@ function QuestionForm(props) {
     answer4: "",
     correctIndex: 0,
   });
-
-  function handleChange(event) {
+ function handleChange(event) {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
   }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    console.log(formData);
+function handleSubmit(event) {
+     event.preventDefault();
+    fetch("http://localhost:4000/questions", {
+       method: "POST",
+      headers: {
+         "Content-Type" : "application/json",
+       },
+       body: JSON.stringify(formData),
+     })
+     .then((r) => r.json())
+     .then((newQuestion) => setFormData(newQuestion))
   }
-
   return (
     <section>
       <h1>New Question</h1>
